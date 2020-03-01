@@ -1,36 +1,24 @@
 from flask import Flask,render_template,url_for,request, send_from_directory, redirect, flash, Markup
 from werkzeug.utils import secure_filename
-
 import numpy as np
 import shutil
 import os
 import cv2
-import random
-from matplotlib import colors, pyplot as plt
-import json
-
-import requests
-
-
-
 import torch
 import torch.nn as nn
-import numpy as np
 import PIL
 from PIL import Image
 import pickle
-from pathlib import Path
 from torchvision import transforms
 from sklearn.preprocessing import LabelEncoder
 from torch.utils.data import Dataset, DataLoader
-import cv2
-import os
+
 DEVICE = torch.device("cpu")
 
 RESCALE_SIZE = 512
 
 
-#UPLOAD_FOLDER = '/path/to/the/uploads'
+
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg'])
 
 app = Flask(__name__)
@@ -156,7 +144,7 @@ def predict_gemstones():
   
   label_encoder = LabelEncoder()
   label_encoder.fit(test_labels)
-  with open('C:/Users/GOODBUY/Downloads/gemstones/data/gemstones/label_encoder.pkl', 'wb') as le_dump_file:
+  with open(os.path.join(app.config['UPLOAD_FOLDER'], 'data/gemstones/label_encoder.pkl'), 'wb') as le_dump_file:
 	  pickle.dump(label_encoder, le_dump_file)
             
   
@@ -171,7 +159,7 @@ def predict_gemstones():
     nn.Linear(resnet_model.fc.in_features, out_features=n_classes)
     )
   
-  resnet_model.load_state_dict(torch.load("C:/Users/GOODBUY/Downloads/gemstones/data/gemstones/resnet_model_weights.pth", map_location=torch.device('cpu')))
+  resnet_model.load_state_dict(torch.load(os.path.join(app.config['UPLOAD_FOLDER'], 'data/gemstones/resnet_model_weights.pth'), map_location=torch.device('cpu')))
     
   
   ex_img = test_dataset[0]
@@ -193,7 +181,7 @@ def predict_gemstones():
   flash('Это камень {}.'.format(str(pthr)))
   flash('Нажмите "Очистить" перед загрузкой следующией картинки.')
   
-  im1= str(os.path.join('C:/Users/GOODBUY/Documents/flask_project/static', str.lower(pthr)+'_0.jpg'))
+  im1= str(os.path.join(os.path.join(app.config['UPLOAD_FOLDER'], 'static'), str.lower(pthr)+'_0.jpg'))
   
   
  
