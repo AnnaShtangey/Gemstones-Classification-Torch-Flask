@@ -1,12 +1,12 @@
 flask
 werkzeug
 numpy
-shutil
-os
+pytest-shutil
+os-sys
 opencv-python
-torch
 pillow
-pickie
-torchvision
 scikit-learn
+torch
+torchvision
+
 
