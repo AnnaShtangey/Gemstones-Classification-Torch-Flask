@@ -2,7 +2,6 @@ flask
 werkzeug
 numpy
 pytest-shutil
-os-sys
 opencv-python
 pillow
 scikit-learn
